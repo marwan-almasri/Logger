@@ -3,6 +3,8 @@
 ![Swift vesion](https://img.shields.io/badge/swift-5.10-orange.svg?logo=swift)
 ![Xcode vesion](https://img.shields.io/badge/xcode-16.0^-blue.svg?logo=Xcode)
 ![Platforms](https://img.shields.io/badge/platforms-iOS|macOS-lightgray.svg?logo=apple)
+[![Swift Package Tests](https://github.com/marwan-almasri/Logger/actions/workflows/test.yml/badge.svg)](https://github.com/marwan-almasri/Logger/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/marwan-almasri/Logger/graph/badge.svg?token=HKPRP9S7VT)](https://codecov.io/gh/marwan-almasri/Logger)
 
 A lightweight, extensible Swift logging library with support for:
 - ✅ Multiple log levels

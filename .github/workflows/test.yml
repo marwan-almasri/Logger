@@ -30,3 +30,11 @@ jobs:
 
       - name: Build and test
         run: swift test --enable-code-coverage
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          flags: unittests
+          verbose: true
