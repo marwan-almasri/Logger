@@ -1,0 +1,32 @@
+name: Swift Package Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run tests on ${{ matrix.os }} - Swift ${{ matrix.swift }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-13]
+        swift: ["5.10"]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up Swift ${{ matrix.swift }}
+        uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: ${{ matrix.swift }}
+
+      - name: Show Swift version
+        run: swift --version
+
+      - name: Build and test
+        run: swift test --enable-code-coverage
