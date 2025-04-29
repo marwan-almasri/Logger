@@ -1,0 +1,24 @@
+name: Run Swift Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run Swift Tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up Swift
+        uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: '5.9'  # Or '5.10' if you're using Swift 5.10 or Xcode 15.4
+
+      - name: Run tests
+        run: swift test --enable-code-coverage
