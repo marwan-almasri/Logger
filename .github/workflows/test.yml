@@ -31,10 +31,18 @@ jobs:
       - name: Build and test
         run: swift test --enable-code-coverage
       
+      - name: Convert coverage to lcov
+        run: |
+          mkdir -p coverage
+          xcrun llvm-cov export \
+            .build/debug/LoggerPackageTests.xctest/Contents/MacOS/LoggerPackageTests \
+            -instr-profile .build/debug/codecov/default.profdata \
+            -format="lcov" > coverage/lcov.info
+      
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-          flags: unittests
+          files: coverage/lcov.info
           verbose: true
