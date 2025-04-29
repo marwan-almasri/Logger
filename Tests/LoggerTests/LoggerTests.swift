@@ -2,7 +2,7 @@ import Testing
 @testable import Logger
 import LoggerMocks
 
-struct LoggerTests {
+@Suite("Logger tests") struct LoggerTests {
     
     @Test static func logsAboveMinimumLevelAreRecorded() async throws {
         let mockOutput = MockLoggerOutput()

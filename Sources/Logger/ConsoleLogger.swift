@@ -3,9 +3,11 @@ import Foundation
 
 /// Outputs logs to the console asynchronously.
 public struct ConsoleLogger: LoggerOutput {
-    private let queue = DispatchQueue(label: "com.logger.consoleLogger")
+    private let queue: DispatchQueue
 
-    public init() {}
+    public init(queue: DispatchQueue = DispatchQueue(label: "com.logger.consoleLogger")) {
+        self.queue = queue
+    }
 
     public func log(message: String, level: LogLevel, redactedMetadata: [String: String]? = nil) {
         queue.async {

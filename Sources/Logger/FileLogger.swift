@@ -1,13 +1,13 @@
 import LoggerInterface
 import Foundation
 
-
 /// Appends logs to a file asynchronously.
 public final class FileLogger: LoggerOutput, Sendable {
     private let fileHandle: FileHandle
-    private let queue = DispatchQueue(label: "com.logger.fileLogger")
+    private let queue: DispatchQueue
 
-    public init?(filePath: String) {
+    public init?(filePath: String, queue: DispatchQueue = DispatchQueue(label: "com.logger.fileLogger")) {
+        self.queue = queue
         let manager = FileManager.default
 
         if !manager.fileExists(atPath: filePath) {

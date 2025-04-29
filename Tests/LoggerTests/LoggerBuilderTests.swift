@@ -2,7 +2,7 @@ import Testing
 @testable import Logger
 import LoggerMocks
 
-struct LoggerBuilderTests {
+@Suite("Logger builder tests") struct LoggerBuilderTests {
 
     @Test static func loggerBuilderBuildsLogger() async throws {
         let mockOutput = MockLoggerOutput()
@@ -21,7 +21,7 @@ struct LoggerBuilderTests {
 
     @Test static func builderReturnsConfiguredLogger() async throws {
         let builder = MockLoggerBuilder()
-        let logger = builder
+        _ = builder
             .addOutput(ConsoleLogger())
             .setMinimumLogLevel(.error)
             .setRedactKeys(["apiKey"])
