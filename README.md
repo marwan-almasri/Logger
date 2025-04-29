@@ -1,7 +1,7 @@
 # 📦 Logger
 
-![Swift vesion](https://img.shields.io/badge/swift-5.7-orange.svg?logo=swift)
-![Xcode vesion](https://img.shields.io/badge/xcode-16-blue.svg?logo=Xcode)
+![Swift vesion](https://img.shields.io/badge/swift-5.10-orange.svg?logo=swift)
+![Xcode vesion](https://img.shields.io/badge/xcode-16.0^-blue.svg?logo=Xcode)
 ![Platforms](https://img.shields.io/badge/platforms-iOS|macOS-lightgray.svg?logo=apple)
 
 A lightweight, extensible Swift logging library with support for:
