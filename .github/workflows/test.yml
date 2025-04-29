@@ -1,4 +1,4 @@
-name: Swift Package Tests
+name: Tests
 
 on:
   push:
