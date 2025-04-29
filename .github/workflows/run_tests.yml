@@ -21,7 +21,7 @@ jobs:
       - name: Set up Swift 5.10
         uses: swift-actions/setup-swift@v1
         with:
-          swift-version: '5.10'
+          swift-version: '5.10.1"'
 
       - name: Run Swift Tests
         run: swift test --enable-code-coverage
