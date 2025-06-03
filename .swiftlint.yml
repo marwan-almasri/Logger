@@ -1,0 +1,24 @@
+# .swiftlint.yml
+
+included:
+  - Sources
+  - Tests
+
+excluded:
+  - .build
+  - DerivedData
+
+opt_in_rules:
+  - attributes
+  - closure_spacing
+  - explicit_self
+  - multiline_parameters
+  - vertical_parameter_alignment
+  - trailing_closure
+  - unused_declaration
+
+disabled_rules:
+  - line_length
+  - identifier_name
+
+reporter: xcode

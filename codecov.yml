@@ -12,3 +12,8 @@ comment:
   layout: "reach, diff, flags, files"
   behavior: default
   require_changes: yes
+
+ignore:
+  - Sources/LoggerInterface/*
+  - Sources/LoggerMocks/*
+  - Tests/*
