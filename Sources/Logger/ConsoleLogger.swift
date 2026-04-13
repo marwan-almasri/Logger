@@ -9,7 +9,7 @@ public struct ConsoleLogger: LoggerOutput, Sendable {
         self.queue = queue
     }
 
-    public func log(message: String, level: LogLevel, redactedMetadata: [String: String]? = nil) {
+    public func log(message: String, level _: LogLevel, redactedMetadata: [String: String]? = nil) {
         queue.async {
             print(message)
             if let metadata = redactedMetadata, !metadata.isEmpty {

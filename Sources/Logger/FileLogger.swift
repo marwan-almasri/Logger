@@ -1,5 +1,5 @@
-import LoggerInterface
 import Foundation
+import LoggerInterface
 
 /// Appends logs to a file asynchronously.
 public final class FileLogger: LoggerOutput, Sendable {
@@ -15,11 +15,11 @@ public final class FileLogger: LoggerOutput, Sendable {
         }
 
         guard let handle = FileHandle(forWritingAtPath: filePath) else { return nil }
-        self.fileHandle = handle
-        self.fileHandle.seekToEndOfFile()
+        fileHandle = handle
+        fileHandle.seekToEndOfFile()
     }
 
-    public func log(message: String, level: LogLevel, redactedMetadata: [String: String]? = nil) {
+    public func log(message: String, level _: LogLevel, redactedMetadata: [String: String]? = nil) {
         queue.async {
             var fullMessage = "\(Date.logFormatter.string(from: Date())): \(message)"
             if let metadata = redactedMetadata, !metadata.isEmpty {

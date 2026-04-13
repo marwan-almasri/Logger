@@ -1,9 +1,9 @@
-import LoggerInterface
 import Foundation
+import LoggerInterface
 
 public final class MockLoggerOutput: LoggerOutput {
-    nonisolated private let lock = NSLock()
-    nonisolated(unsafe) private var _messages: [(message: String, level: LogLevel, metadata: [String: String]?)] = []
+    private nonisolated let lock = NSLock()
+    private nonisolated(unsafe) var _messages: [(message: String, level: LogLevel, metadata: [String: String]?)] = []
 
     public var messages: [(message: String, level: LogLevel, metadata: [String: String]?)] {
         lock.withLock { _messages }

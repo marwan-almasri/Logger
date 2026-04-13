@@ -1,5 +1,5 @@
-import LoggerInterface
 import Foundation
+import LoggerInterface
 
 /// Logs messages to configured outputs with support for filtering and redaction.
 ///
@@ -10,10 +10,10 @@ public final class Logger: LoggerProtocol, Sendable {
     private let outputs: [LoggerOutput]
     private let minimumLogLevel: LogLevel
     private let queue: DispatchQueue
-    nonisolated private let _isEnabled = NSLock()
-    nonisolated(unsafe) private var _isEnabledValue: Bool = true
-    nonisolated private let _redactKeysLock = NSLock()
-    nonisolated(unsafe) private var _redactKeysValue: Set<String>?
+    private nonisolated let _isEnabled = NSLock()
+    private nonisolated(unsafe) var _isEnabledValue: Bool = true
+    private nonisolated let _redactKeysLock = NSLock()
+    private nonisolated(unsafe) var _redactKeysValue: Set<String>?
 
     public var isEnabled: Bool {
         get {
@@ -36,7 +36,7 @@ public final class Logger: LoggerProtocol, Sendable {
     public init(outputs: [LoggerOutput], minimumLogLevel: LogLevel = .info, redactKeys: Set<String>? = nil) {
         self.outputs = outputs
         self.minimumLogLevel = minimumLogLevel
-        self.queue = DispatchQueue(label: "com.logger.logger")
+        queue = DispatchQueue(label: "com.logger.logger")
         self.redactKeys = redactKeys
     }
 

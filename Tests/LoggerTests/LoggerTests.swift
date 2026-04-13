@@ -1,10 +1,9 @@
-import Testing
 import Foundation
 @testable import Logger
 import LoggerMocks
+import Testing
 
 @Suite("Logger tests") struct LoggerTests {
-    
     @Test static func logsAboveMinimumLevelAreRecorded() {
         let mockOutput = MockLoggerOutput()
         let logger = Logger(outputs: [mockOutput], minimumLogLevel: .warning)
@@ -45,9 +44,9 @@ import LoggerMocks
 
         // Create a group to wait for all threads to complete
         let group = DispatchGroup()
-        for threadIndex in 0..<threadCount {
+        for threadIndex in 0 ..< threadCount {
             DispatchQueue.global().async(group: group) {
-                for logIndex in 0..<logsPerThread {
+                for logIndex in 0 ..< logsPerThread {
                     logger.info("Thread \(threadIndex) - Log \(logIndex)", metadata: ["thread": "\(threadIndex)"])
                 }
             }
@@ -72,5 +71,3 @@ import LoggerMocks
         }
     }
 }
-
-

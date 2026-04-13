@@ -1,4 +1,4 @@
-import  LoggerInterface
+import LoggerInterface
 
 public final class MockLogger: LoggerProtocol {
     public private(set) var logs: [(message: String, level: LogLevel, metadata: [String: String]?)] = []

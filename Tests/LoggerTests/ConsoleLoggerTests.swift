@@ -1,10 +1,10 @@
-import Testing
 import Foundation
 @testable import Logger
 import LoggerMocks
+import Testing
 
 @Suite("Console logger tests") struct ConsoleLoggerTests {
-    @Test static func testPrintsMessageAndMetadata() async throws {
+    @Test static func printsMessageAndMetadata() async throws {
         let testQueue = DispatchQueue(label: "test.console.logger")
         let logger = ConsoleLogger(queue: testQueue)
 

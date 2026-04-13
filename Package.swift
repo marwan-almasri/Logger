@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Logger",
     platforms: [
-        .iOS(.v13), .macOS(.v10_15)
+        .iOS(.v13), .macOS(.v10_15),
     ],
     products: [
         .library(
@@ -18,14 +18,14 @@ let package = Package(
         .library(
             name: "LoggerMocks",
             targets: ["LoggerMocks"]
-        )
+        ),
     ],
     dependencies: [],
     targets: [
         .target(
             name: "Logger",
             dependencies: [
-                "LoggerInterface"
+                "LoggerInterface",
             ]
         ),
         .target(
@@ -35,14 +35,14 @@ let package = Package(
         .target(
             name: "LoggerMocks",
             dependencies: [
-                "LoggerInterface"
+                "LoggerInterface",
             ]
         ),
         .testTarget(
             name: "LoggerTests",
             dependencies: [
                 "Logger",
-                "LoggerMocks"
+                "LoggerMocks",
             ]
         ),
     ]

@@ -1,9 +1,8 @@
-import Testing
 @testable import Logger
 import LoggerMocks
+import Testing
 
 @Suite("Logger builder tests") struct LoggerBuilderTests {
-
     @Test static func loggerBuilderBuildsLogger() async throws {
         let mockOutput = MockLoggerOutput()
         let logger = LoggerBuilder()

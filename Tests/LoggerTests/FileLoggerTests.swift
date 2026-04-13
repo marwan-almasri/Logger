@@ -1,12 +1,11 @@
-import Testing
 import Foundation
 @testable import Logger
 import LoggerInterface
 import LoggerMocks
+import Testing
 
 @Suite("File logger tests") struct FileLoggerTests {
-
-    @Test static func testLogIsWrittenToFile() async throws {
+    @Test static func logIsWrittenToFile() async throws {
         let testQueue = DispatchQueue(label: "test.file.logger")
         let tempFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("log-\(UUID().uuidString).txt")
         let filePath = tempFileURL.path

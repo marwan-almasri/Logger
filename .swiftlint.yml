@@ -20,5 +20,9 @@ opt_in_rules:
 disabled_rules:
   - line_length
   - identifier_name
+  - attributes  # Swift Testing uses inline attributes
+
+large_tuple:
+  warning: 3  # Allow up to 3 members in a tuple
 
 reporter: xcode
