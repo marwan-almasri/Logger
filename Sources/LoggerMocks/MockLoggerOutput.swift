@@ -1,15 +1,25 @@
 import LoggerInterface
+import Foundation
 
 public final class MockLoggerOutput: LoggerOutput {
-    public private(set) var messages: [(message: String, level: LogLevel, metadata: [String: String]?)] = []
+    nonisolated private let lock = NSLock()
+    nonisolated(unsafe) private var _messages: [(message: String, level: LogLevel, metadata: [String: String]?)] = []
+
+    public var messages: [(message: String, level: LogLevel, metadata: [String: String]?)] {
+        lock.withLock { _messages }
+    }
 
     public init() {}
 
     public func log(message: String, level: LogLevel, redactedMetadata: [String: String]?) {
-        messages.append((message, level, redactedMetadata))
+        lock.withLock {
+            _messages.append((message, level, redactedMetadata))
+        }
     }
 
     public func reset() {
-        messages.removeAll()
+        lock.withLock {
+            _messages.removeAll()
+        }
     }
 }

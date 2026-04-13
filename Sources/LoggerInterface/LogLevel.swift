@@ -2,7 +2,7 @@ import Foundation
 
 /// Represents the severity level of a log message.
 /// Conforms to `Comparable` to support filtering.
-public enum LogLevel: String, Comparable {
+public enum LogLevel: String, Comparable, Sendable {
     case info = "INFO"
     case success = "SUCCESS"
     case warning = "WARNING"

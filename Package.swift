@@ -20,9 +20,7 @@ let package = Package(
             targets: ["LoggerMocks"]
         )
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-testing.git", from: "0.6.0")
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "Logger",
@@ -44,8 +42,7 @@ let package = Package(
             name: "LoggerTests",
             dependencies: [
                 "Logger",
-                "LoggerMocks",
-                .product(name: "Testing", package: "swift-testing")
+                "LoggerMocks"
             ]
         ),
     ]

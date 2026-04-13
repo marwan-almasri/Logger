@@ -2,35 +2,66 @@ import LoggerInterface
 import Foundation
 
 /// Logs messages to configured outputs with support for filtering and redaction.
-public final class Logger: LoggerProtocol {
+///
+/// This class is thread-safe and can be safely accessed from multiple threads concurrently.
+/// All logging operations are serialized through an internal dispatch queue to ensure
+/// consistent state and message ordering.
+public final class Logger: LoggerProtocol, Sendable {
     private let outputs: [LoggerOutput]
     private let minimumLogLevel: LogLevel
-    public var isEnabled: Bool = true
-    public var redactKeys: Set<String>?
+    private let queue: DispatchQueue
+    nonisolated private let _isEnabled = NSLock()
+    nonisolated(unsafe) private var _isEnabledValue: Bool = true
+    nonisolated private let _redactKeysLock = NSLock()
+    nonisolated(unsafe) private var _redactKeysValue: Set<String>?
+
+    public var isEnabled: Bool {
+        get {
+            _isEnabled.withLock { _isEnabledValue }
+        }
+        set {
+            _isEnabled.withLock { _isEnabledValue = newValue }
+        }
+    }
+
+    public var redactKeys: Set<String>? {
+        get {
+            _redactKeysLock.withLock { _redactKeysValue }
+        }
+        set {
+            _redactKeysLock.withLock { _redactKeysValue = newValue }
+        }
+    }
 
     public init(outputs: [LoggerOutput], minimumLogLevel: LogLevel = .info, redactKeys: Set<String>? = nil) {
         self.outputs = outputs
         self.minimumLogLevel = minimumLogLevel
+        self.queue = DispatchQueue(label: "com.logger.logger")
         self.redactKeys = redactKeys
     }
 
     public func log(_ message: String, level: LogLevel, metadata: [String: String]? = nil) {
-        guard isEnabled, level >= minimumLogLevel else { return }
+        queue.sync {
+            let currentIsEnabled = _isEnabled.withLock { _isEnabledValue }
+            let currentRedactKeys = _redactKeysLock.withLock { _redactKeysValue }
 
-        let timestamp = Date.logFormatter.string(from: Date())
-        let threadName = Thread.isMainThread ? "main" : (Thread.current.name ?? "background")
-        let formattedMessage = "\(timestamp) [\(threadName)] \(level.symbol) [\(level.rawValue)] - \(message)"
+            guard currentIsEnabled, level >= minimumLogLevel else { return }
 
-        let redacted = metadata?.reduce(into: [String: String]()) { result, pair in
-            if let keys = redactKeys,
-               keys.contains(where: { $0.caseInsensitiveCompare(pair.key) == .orderedSame }) {
-                result[pair.key] = "***REDACTED***"
-            } else {
-                result[pair.key] = pair.value
+            let timestamp = Date.logFormatter.string(from: Date())
+            let threadName = Thread.isMainThread ? "main" : (Thread.current.name ?? "background")
+            let formattedMessage = "\(timestamp) [\(threadName)] \(level.symbol) [\(level.rawValue)] - \(message)"
+
+            let redacted = metadata?.reduce(into: [String: String]()) { result, pair in
+                if let keys = currentRedactKeys,
+                   keys.contains(where: { $0.caseInsensitiveCompare(pair.key) == .orderedSame }) {
+                    result[pair.key] = "***REDACTED***"
+                } else {
+                    result[pair.key] = pair.value
+                }
             }
-        }
 
-        outputs.forEach { $0.log(message: formattedMessage, level: level, redactedMetadata: redacted) }
+            outputs.forEach { $0.log(message: formattedMessage, level: level, redactedMetadata: redacted) }
+        }
     }
 
     public func info(_ message: String, metadata: [String: String]? = nil) {
@@ -49,9 +80,3 @@ public final class Logger: LoggerProtocol {
         log(message, level: .error, metadata: metadata)
     }
 }
-
-
-
-
-
-

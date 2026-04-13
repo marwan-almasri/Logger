@@ -2,7 +2,7 @@ import Foundation
 
 /// A protocol that defines how logs should be written by an output target.
 /// Each output implementation (e.g. console, file, external service) must conform to this.
-public protocol LoggerOutput {
+public protocol LoggerOutput: Sendable {
     /// Logs a formatted message with a given log level and optionally redacted metadata.
     ///
     /// - Parameters:

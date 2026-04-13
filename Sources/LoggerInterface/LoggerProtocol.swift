@@ -2,6 +2,8 @@ import Foundation
 
 /// The logging interface exposed to clients.
 ///
+/// Implementations should be thread-safe and can be safely accessed from multiple threads concurrently.
+///
 /// **Example Usage:**
 ///
 /// ```swift

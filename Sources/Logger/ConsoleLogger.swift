@@ -1,8 +1,8 @@
-import LoggerInterface
 import Foundation
+import LoggerInterface
 
 /// Outputs logs to the console asynchronously.
-public struct ConsoleLogger: LoggerOutput {
+public struct ConsoleLogger: LoggerOutput, Sendable {
     private let queue: DispatchQueue
 
     public init(queue: DispatchQueue = DispatchQueue(label: "com.logger.consoleLogger")) {
