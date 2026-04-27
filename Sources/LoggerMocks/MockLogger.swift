@@ -1,12 +1,18 @@
+import Foundation
 import LoggerInterface
 
 public final class MockLogger: LoggerProtocol {
-    public private(set) var logs: [(message: String, level: LogLevel, metadata: [String: String]?)] = []
+    private let lock = NSLock()
+    private var _logs: [(message: String, level: LogLevel, metadata: [String: String]?)] = []
+
+    public var logs: [(message: String, level: LogLevel, metadata: [String: String]?)] {
+        lock.withLock { _logs }
+    }
 
     public init() {}
 
     public func log(_ message: String, level: LogLevel, metadata: [String: String]?) {
-        logs.append((message, level, metadata))
+        lock.withLock { _logs.append((message, level, metadata)) }
     }
 
     public func info(_ message: String, metadata: [String: String]?) {
@@ -26,6 +32,6 @@ public final class MockLogger: LoggerProtocol {
     }
 
     public func reset() {
-        logs.removeAll()
+        lock.withLock { _logs.removeAll() }
     }
 }

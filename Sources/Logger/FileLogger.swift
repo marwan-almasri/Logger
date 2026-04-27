@@ -21,7 +21,7 @@ public final class FileLogger: LoggerOutput, Sendable {
 
     public func log(message: String, level _: LogLevel, redactedMetadata: [String: String]? = nil) {
         queue.async {
-            var fullMessage = "\(Date.logFormatter.string(from: Date())): \(message)"
+            var fullMessage = message
             if let metadata = redactedMetadata, !metadata.isEmpty {
                 let formatted = metadata.map { "\($0): \($1)" }.joined(separator: ", ")
                 fullMessage += " | Metadata: [\(formatted)]"

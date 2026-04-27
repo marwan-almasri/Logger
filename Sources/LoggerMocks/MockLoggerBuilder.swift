@@ -12,22 +12,22 @@ public final class MockLoggerBuilder: LoggerBuilderProtocol {
         self.loggerToReturn = loggerToReturn
     }
 
-    public func addOutput(_: LoggerOutput) -> LoggerBuilderProtocol {
+    public func addOutput(_: any LoggerOutput) -> any LoggerBuilderProtocol {
         calledAddOutput = true
         return self
     }
 
-    public func setMinimumLogLevel(_: LogLevel) -> LoggerBuilderProtocol {
+    public func setMinimumLogLevel(_: LogLevel) -> any LoggerBuilderProtocol {
         calledSetMinimumLogLevel = true
         return self
     }
 
-    public func setRedactKeys(_: Set<String>) -> LoggerBuilderProtocol {
+    public func setRedactKeys(_: Set<String>) -> any LoggerBuilderProtocol {
         calledSetRedactKeys = true
         return self
     }
 
-    public func build() -> LoggerProtocol {
+    public func build() -> any LoggerProtocol {
         buildCalled = true
         return loggerToReturn
     }

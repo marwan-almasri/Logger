@@ -6,7 +6,9 @@
       "Bash(cat)",
       "Read(//tmp/**)",
       "Bash(swift test:*)",
-      "Bash(make lint:*)"
+      "Bash(make lint:*)",
+      "Bash(swift build *)",
+      "Bash(swift package *)"
     ]
   }
 }

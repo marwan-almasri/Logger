@@ -1,7 +1,7 @@
 import Foundation
 
 /// Configuration values for building a logger.
-public struct LoggerConfiguration {
+public struct LoggerConfiguration: Sendable {
     public var outputs: [LoggerOutput]
     public var minimumLogLevel: LogLevel
     public var redactKeys: Set<String>?

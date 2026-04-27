@@ -10,17 +10,17 @@ public final class Logger: LoggerProtocol, Sendable {
     private let outputs: [LoggerOutput]
     private let minimumLogLevel: LogLevel
     private let queue: DispatchQueue
-    private nonisolated let _isEnabled = NSLock()
+    private nonisolated let _isEnabledLock = NSLock()
     private nonisolated(unsafe) var _isEnabledValue: Bool = true
     private nonisolated let _redactKeysLock = NSLock()
     private nonisolated(unsafe) var _redactKeysValue: Set<String>?
 
     public var isEnabled: Bool {
         get {
-            _isEnabled.withLock { _isEnabledValue }
+            _isEnabledLock.withLock { _isEnabledValue }
         }
         set {
-            _isEnabled.withLock { _isEnabledValue = newValue }
+            _isEnabledLock.withLock { _isEnabledValue = newValue }
         }
     }
 
@@ -40,15 +40,24 @@ public final class Logger: LoggerProtocol, Sendable {
         self.redactKeys = redactKeys
     }
 
+    public convenience init(configuration: LoggerConfiguration) {
+        self.init(
+            outputs: configuration.outputs,
+            minimumLogLevel: configuration.minimumLogLevel,
+            redactKeys: configuration.redactKeys
+        )
+    }
+
     public func log(_ message: String, level: LogLevel, metadata: [String: String]? = nil) {
         queue.sync {
-            let currentIsEnabled = _isEnabled.withLock { _isEnabledValue }
+            let currentIsEnabled = _isEnabledLock.withLock { _isEnabledValue }
             let currentRedactKeys = _redactKeysLock.withLock { _redactKeysValue }
 
             guard currentIsEnabled, level >= minimumLogLevel else { return }
 
             let timestamp = Date.logFormatter.string(from: Date())
-            let threadName = Thread.isMainThread ? "main" : (Thread.current.name ?? "background")
+            let name = Thread.current.name
+            let threadName = Thread.isMainThread ? "main" : (name?.isEmpty == false ? name! : "background")
             let formattedMessage = "\(timestamp) [\(threadName)] \(level.symbol) [\(level.rawValue)] - \(message)"
 
             let redacted = metadata?.reduce(into: [String: String]()) { result, pair in

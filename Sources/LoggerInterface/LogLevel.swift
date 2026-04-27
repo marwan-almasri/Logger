@@ -18,16 +18,6 @@ public enum LogLevel: String, Comparable, Sendable {
         }
     }
 
-    /// Color indicator for UI or formatting.
-    public var status: String {
-        switch self {
-        case .info: return "🔵"
-        case .success: return "🟢"
-        case .warning: return "🟡"
-        case .error: return "🔴"
-        }
-    }
-
     public static func < (lhs: LogLevel, rhs: LogLevel) -> Bool {
         lhs.order < rhs.order
     }

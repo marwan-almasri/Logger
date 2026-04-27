@@ -17,22 +17,22 @@ public protocol LoggerBuilderProtocol {
     ///
     /// - Parameter output: A conforming `LoggerOutput` instance.
     /// - Returns: The builder instance for chaining.
-    func addOutput(_ output: LoggerOutput) -> LoggerBuilderProtocol
+    func addOutput(_ output: any LoggerOutput) -> any LoggerBuilderProtocol
 
     /// Sets the minimum log level that will be recorded.
     ///
     /// - Parameter level: The lowest `LogLevel` that will be logged.
     /// - Returns: The builder instance for chaining.
-    func setMinimumLogLevel(_ level: LogLevel) -> LoggerBuilderProtocol
+    func setMinimumLogLevel(_ level: LogLevel) -> any LoggerBuilderProtocol
 
     /// Sets metadata keys that should be redacted in the output logs.
     ///
     /// - Parameter keys: A set of sensitive metadata keys to redact (e.g., "password", "token").
     /// - Returns: The builder instance for chaining.
-    func setRedactKeys(_ keys: Set<String>) -> LoggerBuilderProtocol
+    func setRedactKeys(_ keys: Set<String>) -> any LoggerBuilderProtocol
 
     /// Builds and returns a configured logger instance.
     ///
     /// - Returns: A fully configured `LoggerProtocol` instance.
-    func build() -> LoggerProtocol
+    func build() -> any LoggerProtocol
 }
