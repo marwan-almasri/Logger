@@ -8,7 +8,9 @@
       "Bash(swift test:*)",
       "Bash(make lint:*)",
       "Bash(swift build *)",
-      "Bash(swift package *)"
+      "Bash(swift package *)",
+      "Bash(gh run *)",
+      "Bash(swift --version)"
     ]
   }
 }
